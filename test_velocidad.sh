@@ -1,4 +1,5 @@
 #!/bin/bash
+
 make clean
 make
 echo ">>>> Comienzo de los test"

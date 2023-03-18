@@ -11,6 +11,7 @@
 #define BRED "\e[1;31m"
 #define BGRN "\e[1;32m"
 #define BBLU "\e[1;34m"
+#define YELL "\e[0;33m"
 #define reset "\e[0m"
 
 int main() {
@@ -29,12 +30,12 @@ int main() {
     // -------------------------------------------------
 
     printf(BBLU ">>>> Probando parte I\n" reset);
-    printf(">>>> Estructura del grafo\n");
-    printf("El número de vertices del grafo es: %u.\n",
+    printf(YELL ">>>> Estructura del grafo\n" reset);
+    printf("El número de vertices del grafo es: %u\n",
            NumeroDeVertices(G));
-    printf("El número de lados del grafo es: %u.\n", NumeroDeLados(G));
+    printf("El número de lados del grafo es: %u\n", NumeroDeLados(G));
     printf("El Delta del grafo es: %u.\n", Delta(G));
-    printf(">>>> indiceONvecino\n");
+    printf(YELL">>>> indiceONvecino\n" reset);
     printf("indic k: %u, vertice: %u\n", 4u, Nombre(4, G));
     printf("vecinoIndice j: %u, vecino: %u\n", 0u, IndiceVecino(0, 4, G));
     printf("vecinoIndice j: %u, vecino: %u\n", 1u, IndiceVecino(1, 4, G));
