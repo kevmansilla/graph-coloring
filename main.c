@@ -18,7 +18,7 @@ int main() {
     printf(BGRN "\n--------------------------------------------------\n");
     printf(">>>> Probando proyecto Discreta II\n" reset);
 
-    Grafo G = ConstruccionDelGrafo();
+    Grafo G = ConstruirGrafo();
     if (G == NULL) {
         fprintf(stderr, BRED "ERROR: El grafo está vacío.\n" reset);
         fprintf(stderr, BRED "Cerrando el programa ...\n" reset);
@@ -36,9 +36,9 @@ int main() {
     printf("El Delta del grafo es: %u.\n", Delta(G));
     printf(">>>> indiceONvecino\n");
     printf("indic k: %u, vertice: %u\n", 4u, Nombre(4, G));
-    printf("vecinoIndice j: %u, vecino: %u\n", 0u, IndiceONVecino(0, 4, G));
-    printf("vecinoIndice j: %u, vecino: %u\n", 1u, IndiceONVecino(1, 4, G));
-    printf("vecinoIndice j: %u, vecino: %u\n", 2u, IndiceONVecino(2, 4, G));
+    printf("vecinoIndice j: %u, vecino: %u\n", 0u, IndiceVecino(0, 4, G));
+    printf("vecinoIndice j: %u, vecino: %u\n", 1u, IndiceVecino(1, 4, G));
+    printf("vecinoIndice j: %u, vecino: %u\n", 2u, IndiceVecino(2, 4, G));
 
     clock_t end = clock();
     double time_spent = (double)(end - begin) / CLOCKS_PER_SEC;
@@ -47,6 +47,6 @@ int main() {
     printf(BRED "El tiempo de corrida del programa fue de: %fs\n", time_spent);
     printf("Nos vemos ...\n" reset);
 
-    DestruccionDelGrafo(G);
+    DestruirGrafo(G);
     return 0;
 }
