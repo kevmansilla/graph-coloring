@@ -5,6 +5,8 @@ typedef unsigned int u32;
 typedef struct vertice_t *vertice;
 typedef struct vecino_t *vecino;
 
+#define U32_MAX_BOUND 4294967295U //(2^32)-1
+    
 /**
  * Estructura del grafo
  */
