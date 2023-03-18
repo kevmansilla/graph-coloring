@@ -53,3 +53,7 @@ dkms.conf
 
 # pdf
 *.pdf
+
+# exec C
+discretaII
+grafos
