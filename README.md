@@ -13,7 +13,7 @@ make
 
 ## Testing
 
-Primero se debe crear una carpeta llamada grafos en el directorio del proyecto y luego correr los test.
+Primero se debe crear una carpeta llamada grafos en el directorio del proyecto y pegar algunos de a [aquí](https://drive.google.com/drive/folders/17hktF1u1oIRteQdL8uLQJGAIrTbIagK0?usp=sharing), luego correr los test.
 
 Velocidad para cargar el grafo
 ```
@@ -24,5 +24,3 @@ Verificar que los lados y vertices coincidan
 ```
 ./test_vertices_lados.sh
 ```
-
-Los grafos de prueba están disponbles [aquí](https://drive.google.com/drive/folders/17hktF1u1oIRteQdL8uLQJGAIrTbIagK0?usp=sharing)
