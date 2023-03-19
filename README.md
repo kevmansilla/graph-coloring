@@ -13,6 +13,8 @@ make
 
 ## Testing
 
+Primero se debe crear una carpeta llamada grafos en el directorio del proyecto y luego correr los test.
+
 Velocidad para cargar el grafo
 ```
 ./test_velocidad.sh
