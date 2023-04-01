@@ -10,13 +10,13 @@ typedef struct vecino_t *vecino;
 /**
  * Estructura del grafo
  */
-struct GrafoSt {
+typedef struct GrafoSt {
     u32 vertices_num;      // número de vértices del grafo
     u32 lados_num;         // número de aristas del grafo
     u32 delta;             // delta -> mayor grado de los vértices
     vertice *array_vert;   // vértices del grafo
     vertice *sorted_array; // vértices ordenados
-};
+} GrafoSt;
 
 /**
  * Estructura del vertice
