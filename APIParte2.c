@@ -16,6 +16,9 @@ static void DeColorar(Grafo G, u32 *array) {
     }
 }
 
+/**
+ * Greedy
+ */
 u32 Greedy(Grafo G, u32 *Orden, u32 *Color) {
     u32 k = 0u, n_colores = 1u;
     u32 *colores_usados = NULL; // colores usados
@@ -74,6 +77,54 @@ u32 Greedy(Grafo G, u32 *Orden, u32 *Color) {
     return n_colores;
 }
 
-char OrdenImparPar(u32 n, u32 *Orden, u32 *Color);
+/**
+ * TAD para funciones de crear ordenes
+ */
+typedef struct {
+    u32 indice;
+    u32 color;
+} Tupla;
 
-char OrdenJedi(Grafo G, u32 *Orden, u32 *Color);
+/**
+ * Función auxiliar que da el orden del ordenamiento
+ */
+int comparar(const void *a, const void *b) {
+    Tupla *pa = (Tupla *)a;
+    Tupla *pb = (Tupla *)b;
+    if (pa->color % 2 != pb->color % 2) {
+        // Si tienen paridad distinta, el de mayor paridad va primero
+        return (pb->color % 2) - (pa->color % 2);
+    } else {
+        // Si tienen la misma paridad, el de mayor valor va primero
+        return pb->color - pa->color;
+    }
+}
+
+/**
+ * Reordena los vertices de Color
+ */
+char OrdenImparPar(u32 n, u32 *Orden, u32 *Color) {
+    Tupla *temp = malloc(n * sizeof(Tupla));
+    if (!temp) {
+        fprintf(stderr, "No se pudo asignar memoria");
+        return 1;
+    }
+    //copia
+    for (u32 i = 0u; i < n; i++) {
+        temp[i].indice = i;
+        temp[i].color = Color[i];
+    }
+
+    //ordenamos
+    qsort(temp, n, sizeof(Tupla), comparar);
+
+    //escribimos array ordenado
+    for (u32 i = 0u; i < n; i++) {
+        Orden[i] = temp[i].indice;
+    }
+    //liberamos memoria
+    free(temp);
+    return 0;
+}
+
+char OrdenJedi(Grafo G, u32 * Orden, u32 * Color);
