@@ -2,18 +2,20 @@
 
 ## Manejo
 
-Para compilar el proyecto
+Primero descargar algunos grafos de [aquí](https://drive.google.com/drive/folders/17hktF1u1oIRteQdL8uLQJGAIrTbIagK0?usp=sharing). 
+Luego compilar con los siguientes comandos.
+
 ```
 cd graph-coloring/
 
 make
 
-./discretaII < "grafo de prueba"
+./discretaII < grafo_de_prueba.txt
 ```
 
 ## Testing
 
-Primero se debe crear una carpeta llamada grafos en el directorio del proyecto y pegar algunos de a [aquí](https://drive.google.com/drive/folders/17hktF1u1oIRteQdL8uLQJGAIrTbIagK0?usp=sharing), luego correr los test.
+Primero se debe crear una carpeta llamada grafos en el directorio del proyecto y pegar algunos.
 
 Velocidad para cargar el grafo
 ```
