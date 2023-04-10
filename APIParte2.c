@@ -127,4 +127,66 @@ char OrdenImparPar(u32 n, u32 *Orden, u32 *Color) {
     return 0;
 }
 
-char OrdenJedi(Grafo G, u32 * Orden, u32 * Color);
+/**
+ * TAD para abstraer los elementos del vertice
+ */
+typedef struct {
+    u32 id;
+    u32 grado;
+    u32 color;
+} Vertice;
+
+/**
+ * Funcion auxiliar para comparar los vertices por su valor de F
+ */
+int comparar_vertices(const void *a, const void *b) {
+    Vertice *v1 = (Vertice *)a;
+    Vertice *v2 = (Vertice *)b;
+    u32 f1 = v1->grado * (u32)(v1->color+1);
+    u32 f2 = v2->grado * (u32)(v2->color+1);
+    if (f1 > f2)
+        return -1;
+    if (f1 < f2)
+        return 1;
+    return 0;
+}
+
+/**
+ * Orden Jedi
+ */
+char OrdenJedi(Grafo G, u32 *Orden, u32 *Color) {
+    u32 n = NumeroDeVertices(G);
+    u32 r = 0u;
+
+    //cuento la cantidad de colores que aparecen en color
+    for (u32 i = 0; i < n; i++) {
+        if (Color[i] >= r) {
+            r = Color[i] + 1;
+        }
+    }
+
+    // Crear el array de vertices
+    Vertice *vertices = (Vertice *)malloc(n * sizeof(Vertice));
+    if (vertices == NULL) {
+        fprintf(stderr, "No se pudo asignar memoria");
+        return 1; 
+    }
+
+    // Inicializar estructura
+    for (u32 i = 0; i < n; i++) {
+        vertices[i].id = i;
+        vertices[i].grado = Grado(i, G);
+        vertices[i].color = Color[i];
+    }
+
+    // Ordenar los vertices segun el valor de F
+    qsort(vertices, n, sizeof(Vertice), comparar_vertices);
+
+    // Agregar los vertices al array Orden en orden decreciente de F
+    for (u32 i = 0; i < n; i++) {
+        Orden[i] = vertices[i].id;
+    }
+
+    free(vertices);
+    return 0;
+}
