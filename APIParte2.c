@@ -142,8 +142,8 @@ typedef struct {
 int comparar_vertices(const void *a, const void *b) {
     Vertice *v1 = (Vertice *)a;
     Vertice *v2 = (Vertice *)b;
-    u32 f1 = v1->grado * (u32)(v1->color+1);
-    u32 f2 = v2->grado * (u32)(v2->color+1);
+    u32 f1 = v1->grado * (u32)(v1->color);
+    u32 f2 = v2->grado * (u32)(v2->color);
     if (f1 > f2)
         return -1;
     if (f1 < f2)
