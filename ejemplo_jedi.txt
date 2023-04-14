@@ -152,13 +152,13 @@ para x=0
 F(0) = 0*(grado(0) + grado(3)) = 0 * (2+2) = 0
 
 para x=1
-F(1) = 1*(grado(1) + grado(2) + grado(4)) = 1*(2+2+2) = 6
+F(1) = 1*(grado(1) + grado(2)) = 1*(2+2+2) = 4
 
 para x=2
 F(2) = 2*(grado(5)+grado(4)) = 2*(2+2) = 8
 
 Entonces: 
-F(x) = 8 es mayor entonces 2 va primero, luego F(x)=6 para el 
+F(x) = 8 es mayor entonces 2 va primero, luego F(x)=4 para el 
 color 1 y luego el color 0.
 
 Array ordenado -> [4,5,1,2,0,3]
