@@ -127,4 +127,79 @@ char OrdenImparPar(u32 n, u32 *Orden, u32 *Color) {
     return 0;
 }
 
-char OrdenJedi(Grafo G, u32 * Orden, u32 * Color);
+typedef struct {
+    u32 color;
+    u32 f;
+    u32 index;
+} Nodo;
+
+int compare(const void *a, const void *b) {
+    const Nodo *na = (const Nodo *)a;
+    const Nodo *nb = (const Nodo *)b;
+    if (na->f < nb->f) {
+        return 1;
+    } else if (na->f > nb->f) {
+        return -1;
+    } else {
+        return 0;
+    }
+}
+
+/**
+ * En resumen, este código itera sobre los colores del grafo, y para cada 
+ * color, selecciona los nodos del grafo que tienen ese color, los ordena 
+ * según el valor de F(x), y los agrega al arreglo Orden.
+ */
+char OrdenJedi(Grafo G, u32 *Orden, u32 *Color) {
+    u32 n = NumeroDeVertices(G);
+    u32 r = 0;
+    //cuento la cantidad de colores que aparecen en color
+    for (u32 i = 0; i < n; i++) {
+        if (Color[i] >= r) {
+            r = Color[i] + 1;
+        }
+    }
+
+    Nodo *nodos = malloc(n * sizeof(Nodo));
+    if (nodos == NULL) {
+        fprintf(stderr, "No se pudo asignar memoria");
+        return 1;
+    }
+
+    for (u32 i = 0; i < n; i++) {
+        nodos[i].color = Color[i];
+        nodos[i].f = Grado(i, G);
+        nodos[i].index = i;
+    }
+
+    Nodo *temp = malloc(n * sizeof(Nodo));
+    if (temp == NULL) {
+        fprintf(stderr, "No se pudo asignar memoria");
+        free(nodos);
+        return 1;
+    }
+
+    //itero sobre los r-1 colores
+    for (u32 c = 0; c < r; c++) {
+        //contador de nodos
+        u32 count = 0;
+        //itero sobre los nodos y verifica si el color del nodo actual es c
+        //si es así se agrega el nodo al arreglo temp y se incrementa el contador
+        for (u32 i = 0; i < n; i++) {
+            if (nodos[i].color == c) {
+                temp[count++] = nodos[i];
+            }
+        }
+        //ordena los nodos de temp, de mayor a menor
+        qsort(temp, count, sizeof(Nodo), compare);
+        //lleno el arreglo Orden con los indices de los nodos ordenados
+        for (u32 i = 0; i < count; i++) {
+            Orden[i] = temp[i].index;
+        }
+        //actualizo orden
+        Orden += count;
+    }
+    free(nodos);
+    free(temp);
+    return 0;
+}
