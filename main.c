@@ -15,19 +15,21 @@
 #define YELL "\e[0;33m"
 #define reset "\e[0m"
 
+#define U32_MAX_BOUND 4294967295U //(2^32)-1
+#define min(A, B) ((A) > (B) ? (B) : (A))
 
-// static bool esColoreoPropio(Grafo G, const u32 *coloreo) {
-//     bool coloreoPropio = true;
-//     u32 n = NumeroDeVertices(G);
-//     for (u32 i = 0u; i < n && coloreoPropio; i++) {
-//         u32 grado = Grado(i, G);
-//         u32 color = coloreo[i];
-//         for (u32 j = 0u; j < grado && coloreoPropio; j++) {
-//             coloreoPropio = (color != coloreo[IndiceVecino(j, i, G)]);
-//         }
-//     }
-//     return coloreoPropio;
-// }
+static bool esColoreoPropio(Grafo G, const u32 *coloreo) {
+    bool coloreoPropio = true;
+    u32 n = NumeroDeVertices(G);
+    for (u32 i = 0u; i < n && coloreoPropio; i++) {
+        u32 grado = Grado(i, G);
+        u32 color = coloreo[i];
+        for (u32 j = 0u; j < grado && coloreoPropio; j++) {
+            coloreoPropio = (color != coloreo[IndiceVecino(j, i, G)]);
+        }
+    }
+    return coloreoPropio;
+}
 
 int main() {
     clock_t begin = clock();
@@ -40,24 +42,80 @@ int main() {
         fprintf(stderr, BRED "Cerrando el programa ...\n" reset);
         exit(1);
     }
-    // -------------------------------------------------
-    // ----------------- Primera Parte -----------------
-    // -------------------------------------------------
+    u32 num_vertices = NumeroDeVertices(G);
+    // u32 cant_greddy = 0u;
 
-    // printf(BBLU ">>>> Probando parte I\n" reset);
-    // printf(YELL ">>>> Estructura del grafo\n" reset);
-    // printf("El número de vertices del grafo es: %u\n",
-    //        NumeroDeVertices(G));
-    // printf("El número de lados del grafo es: %u\n", NumeroDeLados(G));
-    // printf("El Delta del grafo es: %u.\n", Delta(G));
-    // printf(YELL">>>> indiceONvecino\n" reset);
-    // printf("indic k: %u, vertice: %u\n", 4u, Nombre(4, G));
-    // printf("vecinoIndice j: %u, vecino: %u\n", 0u, IndiceVecino(0, 4, G));
-    // printf("vecinoIndice j: %u, vecino: %u\n", 1u, IndiceVecino(1, 4, G));
-    // printf("vecinoIndice j: %u, vecino: %u\n", 2u, IndiceVecino(2, 4, G));
+    printf(YELL ">>>> Estructura del grafo\n" reset);
+    printf("El número de vertices del grafo es: %u\n",
+           NumeroDeVertices(G));
+    printf("El número de lados del grafo es: %u\n", NumeroDeLados(G));
+    printf("El Delta del grafo es: %u.\n", Delta(G));
+    printf("\n");
+
+    u32 *orden_natural = calloc(num_vertices, sizeof(u32));
+    for (u32 i = 0u; i < num_vertices; i++) {
+        orden_natural[i] = i;
+    }
+
+    u32 *coloreo_0 = calloc(num_vertices, sizeof(u32));
+    u32 greddy = Greedy(G, orden_natural, coloreo_0);
+
+    printf("Greddy colorea el grafo en el orden natural con %u colores.\n",
+           greddy);
+    // Chequeo si el coloreo es propio
+    printf(YELL ">>>> Chequeo si el coloreo es propio\n" reset);
+    if(esColoreoPropio(G, coloreo_0) == 1){
+        printf(BGRN "test: OK\n" reset);
+    }
+    else{
+        printf(BRED "test: NO\n" reset);
+    }
+
+    u32 *coloreo_1 = calloc(num_vertices, sizeof(u32));
+    u32 *coloreo_2 = calloc(num_vertices, sizeof(u32));
+    for (u32 i = 0u; i < num_vertices; i++) {
+        coloreo_1[i] = coloreo_0[i];
+        coloreo_2[i] = coloreo_0[i];
+    }
+
+    u32 *orden_impar = calloc(num_vertices, sizeof(u32));
+    u32 *orden_jedi = calloc(num_vertices, sizeof(u32));
+    for (u32 i = 0u; i < num_vertices; i++) {
+        orden_impar[i] = orden_natural[i];
+        orden_jedi[i] = orden_natural[i];
+    }
+
+    bool changeflag = 0;
+    u32 Greedy1 = U32_MAX_BOUND;
+    u32 Greedy2 = U32_MAX_BOUND;
+    u32 greedycount = 0;
+    char impar_ok = '0';
+    char jedi_ok = '0';
+    for (u32 i = 0u; i < 500; i++) {
+        if (i%16 == 0) {
+            changeflag = !changeflag;
+        } 
+        if (changeflag) {
+            impar_ok = OrdenImparPar(num_vertices, orden_impar, coloreo_1);
+            jedi_ok = OrdenJedi(G, orden_jedi, coloreo_2);
+        } else {
+            impar_ok = OrdenImparPar(num_vertices, orden_impar, coloreo_2);
+            jedi_ok = OrdenJedi(G, orden_jedi, coloreo_1);
+        }
+        if (impar_ok == '0' || jedi_ok == '0') {
+            printf(BRED "ERROR: Orden no válido.\n" reset);
+            exit(1);
+        }
+        Greedy1 = min(Greedy1, Greedy(G, orden_impar, coloreo_1));
+        greedycount ++;
+        printf("Greedy1: %u ", Greedy1);
+        Greedy2 = min(Greedy2, Greedy(G, orden_jedi, coloreo_2));
+        printf("Greedy2: %u\n", Greedy2);
+        printf("total: %u\n", greedycount);
+    }
 
     // -------------------------------------------------
-    // ----------------- Segunda Parte -----------------
+    // ----------------- Test Extras -----------------
     // -------------------------------------------------
 
     // printf(BBLU ">>>> Probando parte II\n" reset);
@@ -76,7 +134,7 @@ int main() {
     // u32 nColores = Greedy(G, orden, coloreo);
     // printf("Greedy: %u\n", nColores);
 
-    // 1000 greedys
+    // //1000 greedys
     // u32 indice = 0u;
     // for (u32 i = 0u; i < 1000; i++) {
     //     u32 nColores = Greedy(G, orden, coloreo);
@@ -146,29 +204,29 @@ int main() {
     // }
     // printf("\n\n");
 
-    // Prueba orden jedi
-    printf(YELL ">>>> Prueba orden jedi\n" reset);
-    // Asignar colores aleatorios a los vertices
-    u32 n = NumeroDeVertices(G);
-    u32 *Color = (u32 *)calloc(n, sizeof(u32));
-    for (u32 i = 0; i < n; i++) {
-        Color[i] = rand() % 3;
-    }
-    // Ordenar los vertices de G segun la funcion OrdenJedi
-    u32 *Orden = (u32 *)calloc(n, sizeof(u32));
-    char ok = OrdenJedi(G, Orden, Color);
-    if (!ok) {
-        printf("Orden de los vertices:\n");
-        for (u32 i = 0; i < n; i++) {
-            printf("%u ", Orden[i]);
-        }
-        printf("\n");
-    } else {
-        printf("Error: no se pudo ordenar los vertices\n");
-    }
+    // // Prueba orden jedi
+    // printf(YELL ">>>> Prueba orden jedi\n" reset);
+    // // Asignar colores aleatorios a los vertices
+    // u32 n = NumeroDeVertices(G);
+    // u32 *Color = (u32 *)calloc(n, sizeof(u32));
+    // for (u32 i = 0; i < n; i++) {
+    //     Color[i] = rand() % 3;
+    // }
+    // // Ordenar los vertices de G segun la funcion OrdenJedi
+    // u32 *Orden = (u32 *)calloc(n, sizeof(u32));
+    // char ok = OrdenJedi(G, Orden, Color);
+    // if (!ok) {
+    //     printf("Orden de los vertices:\n");
+    //     for (u32 i = 0; i < n; i++) {
+    //         printf("%u ", Orden[i]);
+    //     }
+    //     printf("\n");
+    // } else {
+    //     printf("Error: no se pudo ordenar los vertices\n");
+    // }
 
-    free(Color);
-    free(Orden);
+    // free(Color);
+    // free(Orden);
     DestruirGrafo(G);
     clock_t end = clock();
     double time_spent = (double)(end - begin) / CLOCKS_PER_SEC;
