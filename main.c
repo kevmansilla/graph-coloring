@@ -47,10 +47,9 @@ int main() {
     u32 delta = Delta(G);
 
     printf(YELL ">>>> Estructura del grafo\n" reset);
-    printf("El número de vertices del grafo es: %u\n", num_vertices);
-    printf("El número de lados del grafo es: %u\n", num_lados);
-    printf("El Delta del grafo es: %u.\n", delta);
-    printf("\n");
+    printf("El número de vertices: %u\n", num_vertices);
+    printf("El número de lados: %u\n", num_lados);
+    printf("El Delta: %u.\n\n", delta);
 
     // creo arreglo de orden natural
     u32 *orden_natural = calloc(num_vertices, sizeof(u32));
