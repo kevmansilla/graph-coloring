@@ -18,8 +18,14 @@ typedef struct {
     u32 index;
 } Nodo;
 
+/*
+* Función para ordenar OrdenImparPar()
+*/
 int comp_impar_par(const void *a, const void *b);
 
+/*
+ * Función para ordenar OrdenJedi()
+ */
 int comp_jedi(const void *a, const void *b);
 
 #endif
