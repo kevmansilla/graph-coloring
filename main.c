@@ -15,6 +15,8 @@
 #define YELL "\e[0;33m"
 #define reset "\e[0m"
 #define min(A, B) ((A) > (B) ? (B) : (A))
+#define CAMBIO_FLAG_ITEREACIONES 16
+#define NUM_ITERACIONES 500
 
 
 static bool esColoreoPropio(Grafo G, const u32 *coloreo) {
@@ -52,13 +54,25 @@ int main() {
 
     // creo arreglo de orden natural
     u32 *orden_natural = calloc(num_vertices, sizeof(u32));
+    if (orden_natural == NULL) {
+        fprintf(stderr, BRED "ERROR: No se pudo asignar memoria.\n" reset);
+        exit(1);
+    }
     for (u32 i = 0u; i < num_vertices; i++) {
         orden_natural[i] = i;
     }
 
     // Greedy
     u32 *coloreo_0 = calloc(num_vertices, sizeof(u32));
+    if (coloreo_0 == NULL) {
+        fprintf(stderr, BRED "ERROR: No se pudo asignar memoria.\n" reset);
+        exit(1);
+    }
     u32 greedy = Greedy(G, orden_natural, coloreo_0);
+    if (greedy == U32_MAX_BOUND) {
+        fprintf(stderr, BRED "ERROR: No se pudo colorear el grafo.\n" reset);
+        exit(1);
+    }
 
     printf("Greedy colorea el grafo en el orden natural con %u colores.\n\n",
            greedy);
@@ -76,6 +90,10 @@ int main() {
 
     u32 *coloreo_1 = calloc(num_vertices, sizeof(u32));
     u32 *coloreo_2 = calloc(num_vertices, sizeof(u32));
+    if (coloreo_1 == NULL || coloreo_2 == NULL) {
+        fprintf(stderr, BRED "ERROR: No se pudo asignar memoria.\n" reset);
+        exit(1);
+    }
     for (u32 i = 0u; i < num_vertices; i++) {
         coloreo_1[i] = coloreo_0[i];
         coloreo_2[i] = coloreo_0[i];
@@ -83,6 +101,10 @@ int main() {
 
     u32 *orden_impar = calloc(num_vertices, sizeof(u32));
     u32 *orden_jedi = calloc(num_vertices, sizeof(u32));
+    if (orden_impar == NULL || orden_jedi == NULL) {
+        fprintf(stderr, BRED "ERROR: No se pudo asignar memoria.\n" reset);
+        exit(1);
+    }
     for (u32 i = 0u; i < num_vertices; i++) {
         orden_impar[i] = orden_natural[i];
         orden_jedi[i] = orden_natural[i];
@@ -96,10 +118,10 @@ int main() {
     char jedi_ok = '0';
 
     printf(YELL ">>>> 1000 greedys\n" reset);
-    for (u32 i = 0u; i < 500; i++) {
-        if (i%16 == 0) {
+    for (u32 i = 0u; i < NUM_ITERACIONES; i++) {
+        if (i % CAMBIO_FLAG_ITEREACIONES == 0) {
             changeflag = !changeflag;
-        } 
+        }
         if (changeflag) {
             impar_ok = OrdenImparPar(num_vertices, orden_impar, coloreo_1);
             jedi_ok = OrdenJedi(G, orden_jedi, coloreo_2);
@@ -120,6 +142,13 @@ int main() {
     }
 
     DestruirGrafo(G);
+    free(orden_natural);
+    free(coloreo_0);
+    free(coloreo_1);
+    free(coloreo_2);
+    free(orden_impar);
+    free(orden_jedi);
+
     clock_t end = clock();
     double time_spent = (double)(end - begin) / CLOCKS_PER_SEC;
     printf(BBLU ">>>> Fin de la prueba" reset);
