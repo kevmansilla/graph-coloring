@@ -134,13 +134,18 @@ int main() {
             exit(1);
         }
         Greedy1 = min(Greedy1, Greedy(G, orden_impar, coloreo_1));
-        greedycount ++; 
-        printf("Greedy-impar-par: %u - ", Greedy1);
         Greedy2 = min(Greedy2, Greedy(G, orden_jedi, coloreo_2));
+        greedycount ++;
+        if (Greedy1 == U32_MAX_BOUND || Greedy2 == U32_MAX_BOUND) {
+            printf(BRED "ERROR: No se pudo colorear el grafo.\n" reset);
+            exit(1);
+        }
+        printf("Greedy-impar-par: %u - ", Greedy1);
         printf("Greedy-jedi: %u\n", Greedy2);
         printf(BBLU"Total de greedys: %u\n\n" reset, greedycount);
     }
 
+    //libero memoria
     DestruirGrafo(G);
     free(orden_natural);
     free(coloreo_0);
