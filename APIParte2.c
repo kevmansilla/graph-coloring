@@ -27,22 +27,29 @@ u32 Greedy(Grafo G, u32 *Orden, u32 *Color) {
         // tomo el vertice de la posición k
         u32 k = Orden[i];
         u32 grado = Grado(k, G);
+        // colores usados en los vecinos de k
         memset(colores_usados, 0, n_colores * sizeof(u32));
         u32 ind_vecino_k = 0;
         for (u32 j = 0; j < grado; j++) {
+            // tomo el vecino de k
             u32 color_vecino_k = Color[IndiceVecino(ind_vecino_k, k, G)];
+            // si el color del vecino es menor a n_colores, lo marco como usado
             if (color_vecino_k < n_colores) {
                 colores_usados[color_vecino_k] = 1;
             }
+            // incremento el indice del vecino de k
             ind_vecino_k++;
         }
         u32 color_k;
+        // busco el primer color que no fue usado
         for (color_k = 0; color_k < n_colores; color_k++) {
+            // si el color no fue usado, lo asigno a k
             if (colores_usados[color_k] == 0) {
                 Color[k] = color_k;
                 break;
             }
         }
+        // si no encontre un color, le asigno uno nuevo
         if (color_k == n_colores) {
             n_colores++;
             Color[k] = color_k;
