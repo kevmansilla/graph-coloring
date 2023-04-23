@@ -6,7 +6,7 @@
 #include <string.h>
 
 #include "APIParte2.h"
-#include "struts.h"
+#include "aux.h"
 
 /**
  * Greedy

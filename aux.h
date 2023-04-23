@@ -1,5 +1,5 @@
-#ifndef STRUCTS_H
-#define STRUCTS_H
+#ifndef AUX_H
+#define AUX_H
 
 #include "EstructuraGrafo23.h"
 

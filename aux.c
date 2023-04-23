@@ -1,4 +1,4 @@
-#include "struts.h"
+#include "aux.h"
 
 int comp_impar_par(const void *a, const void *b) {
     Tupla *pa = (Tupla *)a;
