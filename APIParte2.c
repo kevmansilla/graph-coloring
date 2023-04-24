@@ -92,25 +92,34 @@ char OrdenImparPar(u32 n, u32 *Orden, u32 *Color) {
 char OrdenJedi(Grafo G, u32 *Orden, u32 *Color) {
     u32 n = NumeroDeVertices(G);
     u32 r = 0;
-    //cuento la cantidad de colores
+    // cuento la cantidad de colores
     for (u32 i = 0; i < n; i++) {
         if (Color[i] >= r) {
             r = Color[i] + 1;
         }
     }
     u32 *sumaGrados = calloc(r, sizeof(u32));
-    Vertice *vertices = calloc(n, sizeof(Vertice));
-    if (!sumaGrados || !vertices) {
+    if (!sumaGrados) {
         return 1;
     }
 
-    // Calcular valorF para cada vértice y sumar los grados de cada color
+    // Calcular F(x) para cada color x y sumar los grados de cada color
+    for (u32 i = 0; i < n; i++) {
+        u32 color = Color[i];
+        u32 grado = Grado(i, G);
+        sumaGrados[color] += grado;
+    }
+
+    // Calcular valorF para cada vértice
+    Vertice *vertices = calloc(n, sizeof(Vertice));
+    if (!vertices) {
+        free(sumaGrados);
+        return 1;
+    }
     for (u32 i = 0; i < n; i++) {
         vertices[i].indice = i;
         u32 color = Color[i];
-        u32 grado = Grado(i, G);
-        vertices[i].valorF = color * grado;
-        sumaGrados[color] += grado;
+        vertices[i].valorF = color * sumaGrados[color];
     }
 
     // Ordenar los vértices

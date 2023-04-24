@@ -211,3 +211,26 @@ char OrdenJedi(Grafo G, u32* Orden, u32* Color) {
     free(F); // Liberamos memoria
     return 0; // Todo ha funcionado correctamente
 }
+______________________________________
+
+0 -> grado(3) | color 0
+1 -> grado(2) | color 1
+2 -> grado(3) | color 1
+3 -> grado(2) | color 0
+4 -> grado(2) | color 2
+5 -> grado(2) | color 2
+
+Calculo de F(x)
+
+para x=0
+F(0) = 0*(3+2) = 0 * (5) = 0
+
+para x=1
+F(1) = 1*(2+3) = 1*(5) = 5
+
+para x=2
+F(2) = 2*(2+2) = 2*(2+2) = 8
+
+Entonces, el orden es:
+
+[5,4,2,1,3,0]
