@@ -18,6 +18,6 @@ int comp_jedi(const void *a, const void *b) {
     if (v1->valorF != v2->valorF) {
         return (v2->valorF > v1->valorF) - (v1->valorF > v2->valorF);
     } else {
-        return (v2->indice > v1->indice) - (v1->indice > v2->indice);
+        return (v1->indice > v2->indice) - (v2->indice > v1->indice);
     }
 }

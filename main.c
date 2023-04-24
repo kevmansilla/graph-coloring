@@ -157,27 +157,8 @@ int main() {
     double time_spent = (double)(end - begin) / CLOCKS_PER_SEC;
     printf(BBLU ">>>> Fin de la prueba" reset);
     printf(BGRN "\n--------------------------------------------------\n");
-    printf(BRED "El tiempo de corrida del programa fue de: %f minutos \n"reset, time_spent/60);
-    
-    // printf(YELL ">>>> Prueba orden jedi\n" reset);
-    // // Asignar colores aleatorios a los vertices
-    // u32 n = NumeroDeVertices(G);
-    // u32 Color[] = {0, 1, 1, 0, 2, 2};
-    // // Ordenar los vertices de G segun la funcion OrdenJedi
-    // u32 *Orden = (u32 *)calloc(n, sizeof(u32));
-    // char ok = OrdenJedi(G, Orden, Color);
-    // if (!ok)
-    // {
-    //     printf("Orden de los vertices:\n");
-    //     for (u32 i = 0; i < n; i++)
-    //     {
-    //         printf("%u ", Orden[i]);
-    //     }
-    //     printf("\n");
-    // }
-    // else
-    // {
-    //     printf("Error: no se pudo ordenar los vertices\n");
-    // }
+    printf(BRED "El tiempo de corrida del programa fue de: %f minutos \n"reset, 
+      time_spent/60);
+
     return 0;
 }
