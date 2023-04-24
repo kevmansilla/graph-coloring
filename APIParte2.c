@@ -99,23 +99,19 @@ char OrdenJedi(Grafo G, u32 *Orden, u32 *Color) {
         }
     }
     u32 *sumaGrados = calloc(r, sizeof(u32));
-    if (!sumaGrados) {
+    Vertice *vertices = calloc(n, sizeof(Vertice));
+    if (!sumaGrados || !vertices) {
         return 1;
     }
 
-    // Calcular F(x) para cada color x y sumar los grados de cada color
+    // Calcular suma de grados para cada color
     for (u32 i = 0; i < n; i++) {
         u32 color = Color[i];
         u32 grado = Grado(i, G);
         sumaGrados[color] += grado;
     }
 
-    // Calcular valorF para cada vértice
-    Vertice *vertices = calloc(n, sizeof(Vertice));
-    if (!vertices) {
-        free(sumaGrados);
-        return 1;
-    }
+    // Calcular el valor de F
     for (u32 i = 0; i < n; i++) {
         vertices[i].indice = i;
         u32 color = Color[i];
