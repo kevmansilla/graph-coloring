@@ -2,6 +2,8 @@
 #define AUX_H
 
 #include "EstructuraGrafo23.h"
+#define min(A, B) ((A) > (B) ? (B) : (A))
+#define max(A, B) ((A) > (B) ? (A) : (B))
 
 /**
  * TADs para funciones de crear ordenes
@@ -13,10 +15,9 @@ typedef struct {
 } Tupla;
 
 typedef struct {
-    u32 color;
-    u32 f;
-    u32 index;
-} Nodo;
+    u32 indice;
+    u32 valorF;
+} Vertice;
 
 /*
 * Función para ordenar OrdenImparPar()

@@ -162,3 +162,52 @@ F(x) = 8 es mayor entonces 2 va primero, luego F(x)=4 para el
 color 1 y luego el color 0.
 
 Array ordenado -> [4,5,1,2,0,3]
+
+char OrdenJedi(Grafo G, u32* Orden, u32* Color) {
+    u32 n = NumeroDeVertices(G);
+    u32 r = 0;
+    for (u32 i = 0; i < n; i++) {
+        if (Color[i] > r) {
+            r = Color[i];
+        }
+    }
+    r++; // r es la cantidad de colores diferentes
+    
+    u32* F = malloc(r * sizeof(u32));
+    if (F == NULL) {
+        return 1; // error al asignar memoria
+    }
+    
+    // Calculamos la función F para cada color
+    for (u32 x = 0; x < r; x++) {
+        F[x] = 0;
+        for (u32 i = 0; i < n; i++) {
+            if (Color[i] == x) {
+                F[x] += Grado(i, G);
+            }
+        }
+        F[x] *= x; // Multiplicamos por x
+    }
+    
+    // Ordenamos los índices en el array Orden
+    for (u32 k = 0; k < n; k++) {
+        u32 max_f = 0;
+        u32 max_color = 0;
+        for (u32 x = 0; x < r; x++) {
+            if (F[x] > max_f) {
+                max_f = F[x];
+                max_color = x;
+            }
+        }
+        F[max_color] = 0; // Para que no lo volvamos a considerar
+        for (u32 i = 0; i < n; i++) {
+            if (Color[i] == max_color) {
+                Orden[k] = i;
+                k++;
+            }
+        }
+    }
+    
+    free(F); // Liberamos memoria
+    return 0; // Todo ha funcionado correctamente
+}

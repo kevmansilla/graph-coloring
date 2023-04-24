@@ -13,13 +13,11 @@ int comp_impar_par(const void *a, const void *b) {
 }
 
 int comp_jedi(const void *a, const void *b) {
-    const Nodo *na = (const Nodo *)a;
-    const Nodo *nb = (const Nodo *)b;
-    if (na->f < nb->f) {
-        return 1;
-    } else if (na->f > nb->f) {
-        return -1;
+    const Vertice *v1 = (const Vertice *)a;
+    const Vertice *v2 = (const Vertice *)b;
+    if (v1->valorF != v2->valorF) {
+        return (v2->valorF > v1->valorF) - (v1->valorF > v2->valorF);
     } else {
-        return 0;
+        return (v2->indice > v1->indice) - (v1->indice > v2->indice);
     }
 }

@@ -87,60 +87,42 @@ char OrdenImparPar(u32 n, u32 *Orden, u32 *Color) {
 }
 
 /**
- * En resumen, este código itera sobre los colores del grafo, y para cada 
- * color, selecciona los nodos del grafo que tienen ese color, los ordena 
- * según el valor de F(x), y los agrega al arreglo Orden.
+ * Orden Jedi
  */
 char OrdenJedi(Grafo G, u32 *Orden, u32 *Color) {
     u32 n = NumeroDeVertices(G);
     u32 r = 0;
-    //cuento la cantidad de colores que aparecen en color
+    //cuento la cantidad de colores
     for (u32 i = 0; i < n; i++) {
         if (Color[i] >= r) {
             r = Color[i] + 1;
         }
     }
-
-    Nodo *nodos = malloc(n * sizeof(Nodo));
-    if (nodos == NULL) {
-        fprintf(stderr, "No se pudo asignar memoria");
+    u32 *sumaGrados = calloc(r, sizeof(u32));
+    Vertice *vertices = calloc(n, sizeof(Vertice));
+    if (!sumaGrados || !vertices) {
         return 1;
     }
 
+    // Calcular valorF para cada vértice y sumar los grados de cada color
     for (u32 i = 0; i < n; i++) {
-        nodos[i].color = Color[i];
-        nodos[i].f = Grado(i, G);
-        nodos[i].index = i;
+        vertices[i].indice = i;
+        u32 color = Color[i];
+        u32 grado = Grado(i, G);
+        vertices[i].valorF = color * grado;
+        sumaGrados[color] += grado;
     }
 
-    Nodo *temp = malloc(n * sizeof(Nodo));
-    if (temp == NULL) {
-        fprintf(stderr, "No se pudo asignar memoria");
-        free(nodos);
-        return 1;
+    // Ordenar los vértices
+    qsort(vertices, n, sizeof(Vertice), comp_jedi);
+
+    // Asignar el orden a los vértices
+    for (u32 i = 0; i < n; i++) {
+        Orden[i] = vertices[i].indice;
     }
 
-    //itero sobre los r-1 colores
-    for (u32 c = 0; c < r; c++) {
-        //contador de nodos
-        u32 count = 0;
-        //itero sobre los nodos y verifica si el color del nodo actual es c
-        //si es así se agrega el nodo al arreglo temp y se incrementa el contador
-        for (u32 i = 0; i < n; i++) {
-            if (nodos[i].color == c) {
-                temp[count++] = nodos[i];
-            }
-        }
-        //ordena los nodos de temp, de mayor a menor
-        qsort(temp, count, sizeof(Nodo), comp_jedi);
-        //lleno el arreglo Orden con los indices de los nodos ordenados
-        for (u32 i = 0; i < count; i++) {
-            Orden[i] = temp[i].index;
-        }
-        //actualizo orden
-        Orden += count;
-    }
-    free(nodos);
-    free(temp);
+    // Liberar memoria
+    free(sumaGrados);
+    free(vertices);
     return 0;
 }

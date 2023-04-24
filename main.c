@@ -8,13 +8,13 @@
 
 #include "APIG23.h"
 #include "APIParte2.h"
+#include "aux.h"
 
 #define BRED "\e[1;31m"
 #define BGRN "\e[1;32m"
 #define BBLU "\e[1;34m"
 #define YELL "\e[0;33m"
 #define reset "\e[0m"
-#define min(A, B) ((A) > (B) ? (B) : (A))
 #define CAMBIO_FLAG_ITEREACIONES 16
 #define NUM_ITERACIONES 500
 
