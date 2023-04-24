@@ -162,11 +162,7 @@ int main() {
     // printf(YELL ">>>> Prueba orden jedi\n" reset);
     // // Asignar colores aleatorios a los vertices
     // u32 n = NumeroDeVertices(G);
-    // // u32 *Color = (u32 *)calloc(n, sizeof(u32));
-    // // for (u32 i = 0; i < n; i++) {
-    // //     Color[i] = rand() % 3;
-    // // }
-    // u32 Color[] = {0, 0, 1, 1, 2, 2};
+    // u32 Color[] = {0, 1, 1, 0, 2, 2};
     // // Ordenar los vertices de G segun la funcion OrdenJedi
     // u32 *Orden = (u32 *)calloc(n, sizeof(u32));
     // char ok = OrdenJedi(G, Orden, Color);
