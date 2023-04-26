@@ -1,7 +1,8 @@
 #ifndef AUX_H
 #define AUX_H
 
-#include "EstructuraGrafo23.h"
+#include "APIG23.h"
+#include <stdbool.h>
 #define min(A, B) ((A) > (B) ? (B) : (A))
 #define max(A, B) ((A) > (B) ? (A) : (B))
 
@@ -28,5 +29,10 @@ int comp_impar_par(const void *a, const void *b);
  * Función para ordenar OrdenJedi()
  */
 int comp_jedi(const void *a, const void *b);
+
+/*
+ * Función para chequar si un coloreo es propio
+ */
+bool esColoreoPropio(Grafo G, const u32 *coloreo);
 
 #endif

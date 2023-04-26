@@ -1,5 +1,6 @@
 #include "aux.h"
 
+
 int comp_impar_par(const void *a, const void *b) {
     Tupla *pa = (Tupla *)a;
     Tupla *pb = (Tupla *)b;
@@ -20,4 +21,17 @@ int comp_jedi(const void *a, const void *b) {
     } else {
         return (v1->indice > v2->indice) - (v2->indice > v1->indice);
     }
+}
+
+bool esColoreoPropio(Grafo G, const u32 *coloreo) {
+    bool coloreoPropio = true;
+    u32 n = NumeroDeVertices(G);
+    for (u32 i = 0u; i < n && coloreoPropio; i++) {
+        u32 grado = Grado(i, G);
+        u32 color = coloreo[i];
+        for (u32 j = 0u; j < grado && coloreoPropio; j++) {
+            coloreoPropio = (color != coloreo[IndiceVecino(j, i, G)]);
+        }
+    }
+    return coloreoPropio;
 }
