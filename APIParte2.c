@@ -66,7 +66,7 @@ char OrdenImparPar(u32 n, u32 *Orden, u32 *Color) {
     Tupla *temp = malloc(n * sizeof(Tupla));
     if (!temp) {
         fprintf(stderr, "No se pudo asignar memoria");
-        return 1;
+        return (char)1;
     }
     //copia
     for (u32 i = 0u; i < n; i++) {
@@ -83,7 +83,7 @@ char OrdenImparPar(u32 n, u32 *Orden, u32 *Color) {
     }
     //liberamos memoria
     free(temp);
-    return 0;
+    return (char)0;
 }
 
 /**
@@ -101,7 +101,7 @@ char OrdenJedi(Grafo G, u32 *Orden, u32 *Color) {
     u32 *sumaGrados = calloc(r, sizeof(u32));
     Vertice *vertices = calloc(n, sizeof(Vertice));
     if (!sumaGrados || !vertices) {
-        return 1;
+        return (char)1;
     }
 
     // Calcular suma de grados para cada color
@@ -129,5 +129,5 @@ char OrdenJedi(Grafo G, u32 *Orden, u32 *Color) {
     // Liberar memoria
     free(sumaGrados);
     free(vertices);
-    return 0;
+    return (char)0;
 }
