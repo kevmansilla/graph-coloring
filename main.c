@@ -131,6 +131,7 @@ int main() {
         printf(BBLU"Total de greedys: %u\n\n" reset, greedycount);
     }
 
+    printf(BBLU ">>>> El greedy inicial era: %u\n\n" reset, greedy);
     //libero memoria
     DestruirGrafo(G);
     free(orden_natural);
