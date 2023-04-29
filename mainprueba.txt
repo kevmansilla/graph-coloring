@@ -1,0 +1,137 @@
+#include <assert.h>
+#include <stdbool.h>
+#include <stdint.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <time.h>
+
+#include "APIG23.h"
+#include "APIParte2.h"
+#include "aux.h"
+
+#define BRED "\e[1;31m"
+#define BGRN "\e[1;32m"
+#define BBLU "\e[1;34m"
+#define YELL "\e[0;33m"
+#define reset "\e[0m"
+#define CAMBIO_FLAG_ITEREACIONES 16
+#define NUM_ITERACIONES 500
+
+
+int main() {
+    printf(YELL "\n--------------------------------------------------\n");
+    // printf(">>>> Probando proyecto Discreta II\n" reset);
+
+    Grafo G = ConstruirGrafo();
+    if (G == NULL) {
+        fprintf(stderr, BRED "ERROR: El grafo está vacío.\n" reset);
+        fprintf(stderr, BRED "Cerrando el programa ...\n" reset);
+        exit(1);
+    }
+    u32 num_vertices = NumeroDeVertices(G);
+    u32 num_lados = NumeroDeLados(G);
+    u32 delta = Delta(G);
+
+    printf(YELL ">>>> Estructura del grafo\n" reset);
+    printf("El número de vertices: %u\n", num_vertices);
+    printf("El número de lados: %u\n", num_lados);
+    printf("El Delta: %u.\n\n", delta);
+
+    // creo arreglo de orden natural
+    u32 *orden_natural = calloc(num_vertices, sizeof(u32));
+    if (orden_natural == NULL) {
+        fprintf(stderr, BRED "ERROR: No se pudo asignar memoria.\n" reset);
+        exit(1);
+    }
+    for (u32 i = 0u; i < num_vertices; i++) {
+        orden_natural[i] = i;
+    }
+
+    // Greedy
+    u32 *coloreo_0 = calloc(num_vertices, sizeof(u32));
+    if (coloreo_0 == NULL) {
+        fprintf(stderr, BRED "ERROR: No se pudo asignar memoria.\n" reset);
+        exit(1);
+    }
+    u32 greedy = Greedy(G, orden_natural, coloreo_0);
+    if (greedy == U32_MAX_BOUND) {
+        fprintf(stderr, BRED "ERROR: No se pudo colorear el grafo.\n" reset);
+        exit(1);
+    }
+
+    printf("Greedy colorea el grafo en el orden natural con %u colores.\n\n",
+           greedy);
+    // Chequeo si el coloreo es propio
+    printf(YELL ">>>> Chequeo si el coloreo es propio\n" reset);
+    if(esColoreoPropio(G, coloreo_0) == 1){
+        printf(BGRN "test: OK\n\n" reset);
+    } else{
+        printf(BRED "test: NO\n" reset);
+        exit(1);
+    }
+
+    printf(YELL ">>>> Prueba orden par-impar\n" reset);
+    // Caso de prueba 1: Arreglo con valores aleatorios
+    u32 n1 = 10;
+    u32 Color1[] = {3, 2, 4, 1, 5, 6, 0, 2, 4, 3};
+    u32 Orden1[n1];
+    OrdenImparPar(n1, Orden1, Color1);
+    printf("Caso de prueba 1: Arreglo con valores aleatorios\n");
+    printf("Color: ");
+    for (u32 i = 0; i < n1; i++) {
+        printf("%u ", Color1[i]);
+    }
+    printf("\nOrden: ");
+    for (u32 i = 0; i < n1; i++) {
+        printf("%u ", Orden1[i]);
+    }
+    printf("\n\n");
+    // Caso de prueba 2: Arreglo con valores repetidos
+    u32 Color2[] = {0, 1, 2, 2, 2, 3, 3, 3, 4, 5};
+    u32 Orden2[n1];
+    OrdenImparPar(n1, Orden2, Color2);
+    printf("Caso de prueba 2: Arreglo con valores repetidos\n");
+    printf("Color: ");
+    for (u32 i = 0; i < n1; i++) {
+        printf("%u ", Color2[i]);
+    }
+    printf("\nOrden: ");
+    for (u32 i = 0; i < n1; i++) {
+        printf("%u ", Orden2[i]);
+    }
+    printf("\n\n");
+
+    // Caso de prueba 3: Arreglo con valores todos iguales
+    u32 Color3[] = {2, 2, 2, 2, 2, 2, 2, 2, 2, 2};
+    u32 Orden3[n1];
+    OrdenImparPar(n1, Orden3, Color3);
+    printf("Caso de prueba 3: Arreglo con valores todos iguales\n");
+    printf("Color: ");
+    for (u32 i = 0; i < n1; i++) {
+        printf("%u ", Color3[i]);
+    }
+    printf("\nOrden: ");
+    for (u32 i = 0; i < n1; i++) {
+        printf("%u ", Orden3[i]);
+    }
+    printf("\n\n");
+
+    printf(YELL ">>>> Prueba orden jedi\n" reset);
+    // Asignar colores aleatorios a los vertices
+    u32 n = NumeroDeVertices(G);
+    u32 Color[] = {0, 1, 1, 0, 2, 2};
+    // Ordenar los vertices de G segun la funcion OrdenJedi
+    u32 *Orden = (u32 *)calloc(n, sizeof(u32));
+    char ok = OrdenJedi(G, Orden, coloreo_0);
+    if (!ok) {
+        printf("\nOrden de los vertices:\n");
+        for (u32 i = 0; i < n; i++) {
+            printf("%u ", Orden[i]);
+        }
+        printf("\n");
+    } else {
+        printf("Error: no se pudo ordenar los vertices\n");
+    }
+    return 0;
+}

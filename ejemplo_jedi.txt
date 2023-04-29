@@ -108,3 +108,24 @@ F(2) = 2*(2+2) = 2*(2+2) = 8
 
 Entonces, el orden es:
 [4,5,1,2,0,3]
+
+
+vertices[0].indice: 3 -> color: 0
+vertices[1].indice: 2 -> color: 1
+vertices[2].indice: 3 -> color: 1
+vertices[3].indice: 2 -> color: 2
+vertices[4].indice: 2 -> color: 0
+vertices[5].indice: 2 -> color: 2
+
+calculo de F(x)
+
+para x=0
+F(0) = 0*(3+2) = 0
+
+x=1
+F(1) = 1*(2+3) = 5
+
+x=2
+F(2) = 2*(2+2) = 8
+
+-> [3,5,1,2,0,4]
