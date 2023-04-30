@@ -3,6 +3,7 @@
 
 #include "APIG23.h"
 #include <stdbool.h>
+#define U32_MAX_BOUND 4294967295U //(2^32)-1
 #define min(A, B) ((A) > (B) ? (B) : (A))
 #define max(A, B) ((A) > (B) ? (A) : (B))
 

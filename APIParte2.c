@@ -1,4 +1,3 @@
-#include <stdint.h>
 #include <stdio.h>
 #include <assert.h>
 #include <stdbool.h>
@@ -17,10 +16,10 @@ u32 Greedy(Grafo G, u32 *Orden, u32 *Color) {
     u32 *colores_usados = calloc(n_vert, sizeof(u32));
     if (colores_usados == NULL) {
         fprintf(stderr, "No se pudo asignar memoria");
-        return UINT32_MAX;
+        return U32_MAX_BOUND;
     }
     // Decolorar los vertices
-    memset(Color, UINT32_MAX, n_vert * sizeof(u32));
+    memset(Color, U32_MAX_BOUND, n_vert * sizeof(u32));
 
     // for para colorear
     for (u32 i = 0; i < n_vert; i++) {
