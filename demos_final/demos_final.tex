@@ -1,5 +1,8 @@
 \documentclass[12pt,a4paper]{article}
 \input{packages.tex}
+\author{Mansilla, Kevin Gaston\footnote{\href{mailto:kevingston47@gmail.com}{kevingston47@gmail.com}}}
+\title{Discreta II: Demos final}
+\date{\today}
 \begin{document}
 \maketitle{}
 
@@ -327,23 +330,26 @@ Dinitz, por el corolario \ref{cor:NA} basta ver que la complejidad de hallar un
 \textbf{flujo bloqueante} es $O(n^{2})$.
 \medskip
 
-Pues en cada ola hacia adelante (salvo en la última) al menos un vertice se bloquea, 
-si los Forwardbalence (fwb) no bloquean ningún vertice entonces todos quedan 
-balanceados y es la última ola.
+Para poder encontrar un flujo bloqueante, se hace una serie de ciclos de olas 
+hacia adelante y olas hacia atrás. En cada ola hacia adelante hacmos una serie 
+de forwardbalance (fwb) y en cada ola hacia atrás hacemos una serie de
+backwardbalance (bwb). En cada ola hacia adelante (salvo en la última) al menos 
+un vertice se bloquea, si los fwb no bloquean ningún vertice entonces todos 
+quedan balanceados y es la última ola.
 \medskip
 
 Como los vertices nunca se desbloquean, hay a lo sumo $O(n)$ olas. Entonces tenemos 
 que analizar dos casos, los fwb y los bwb y ver su complejidad. 
 \medskip
 
-En cada fwb vamos saturando lados salvo quizas uno. Entonces dividamos la 
+En cada \textbf{fwb} vamos saturando lados salvo quizas uno. Entonces dividamos la 
 complejidada en dos:
 \begin{itemize}
     \item [1.] $S=$ complejidad total de los fwb saturado.
     \item [2.] $P=$ complejidad de fwb parcial.
 \end{itemize}
 
-$P$ es facil, en cada fwb solo se ejecura una vez, entonces es $O(1)$.
+$P$ es facil, en cada fwb solo se ejecuta una vez, entonces es $O(1)$.
 \begin{align*}
     P &= \#\,\text{total de fwb}\\
     &= \#\,\text{de fwb en una ola} * \,\text{olas}\\
@@ -355,7 +361,7 @@ $\Gamma^{+}(x)$. Por lo tanto, será a lo sumo $O(\delta(x))$ en cada $x$, enton
 $$s = \sum_{x} O(\delta(x)) = O(m)$$.
 \medskip
 
-Con backwardbalance (bwb) también lo dividimos en casos que vaciamos un lado $V$ y 
+Con \textbf{bwb} también lo dividimos en casos que vaciamos un lado $V$ y 
 los que parcialmente vaciamos $Q$. El analisis de $Q$ es igual que el de $P$, es 
 $O(1)$ en el bwb, por lo tanto
 \begin{align*}
@@ -364,9 +370,10 @@ $O(1)$ en el bwb, por lo tanto
     &= O(n) * O(n)\\
 \end{align*}
 
-Y con respecto a $V$, cada vez que lo hacemos en un $bwb(x)$ borramos un vertice 
-de $M(x)$, por lo que esta acotado por $O(\#\,\text{número de elementos máximos de $M(x)$}) = O(\delta(x))$, 
-entonces $V = O(\delta(x)) = O(m)$.
+Y con respecto a $V$, cada vez que lo hacemos en un $bwb(x)$ borramos un 
+vertice de $M(x)$ (vecinos hacia atrás). Por lo que esta acotado por:
+$$O(\#\,\text{número de elementos máximos de $M(x)$}) = O(\delta(x))$$ 
+Entonces $V = O(\delta(x)) = O(m)$.
 \medskip
 
 Un detalle importante es que $\Gamma^{+}(x)$ es fijo y le voy sacando elementos y 
@@ -451,7 +458,8 @@ esto me aseguro que todos los anteriores esten.
     \item [Caso 2.] $d(x_{i+1}) \nless i+1$\\
         Pero $d(x_{i+1}) \< d'(x_{i+1}) = i+1$. \\
         Como $i$ es el primer indice con $\overrightarrow{x_{i}x_{i+1}} \notin NA$ \\
-        $\overrightarrow{x_{j}x_{j+1}} \in NA,\, \forall j<i$, como NA es por niveles.\\
+        $\overrightarrow{x_{j}x_{j+1}} \in NA,\, \forall j<i$, como NA es por niveles 
+        (nos dice que la porcion $x_{0}x_{1} \ldots x_{j}$ esta en NA)\\
         $\Rightarrow d(x_{j}) = j, \forall j<i$. Es decir, que vale $\forall j \< i+1$.
 \end{itemize}
 
