@@ -710,6 +710,7 @@ la última cola, la correr E-K).
 \medskip
 
 Sea $S = c \cap \bar{X}$, $T = c \cap \bar{Y}$, como en la siguiente imagen.
+\newpage
 \begin{figure}[h!]
     \centering
     \tikzset{every picture/.style={line width=0.75pt}} %set default line width to 0.75pt        
@@ -745,7 +746,7 @@ por alguien (pues $S \notin T$), ese alguien debe ser vecino, y como el grafo es
 y $T \subseteq \bar{Y}$, esos vecinos deben estar en $\bar{X}$.
 \medskip
 
-Pero además deben hacer estado en la cola, es decir, que están en $c$. Entonces 
+Pero además deben haber estado en la cola, es decir, que están en $c$. Entonces 
 el vecino estaba en $S$. En resumen:
 \medskip
 
@@ -854,7 +855,7 @@ $$E_{w} = \llaves{zw\in E: z\in W}$$
 Sean $\bar{X}$ e $\bar{Y}$ las partes de $G$ y supongamos $w \subseteq \bar{X}$ 
 (completamente contenido en $\bar{X}$). Entonces:
 \begin{align*}
-    |E_{w}| &= |\llaves{xw: x\in W}| \\
+    |E_{w}| &= |\llaves{zw: x\in W}| \\
     &\text{Como $w \subseteq \bar{X}$ y no hay lados entre vertices de $\bar{X}$},\\ 
     &\text{cada lado que aparece en $E_{w}$, aparece una sola vez} \\
     &=\sum_{x\in W} |\Gamma(x)|\\
