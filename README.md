@@ -26,3 +26,6 @@ Verificar que los lados y vertices coincidan
 ```
 ./test_vertices_lados.sh
 ```
+## Importante
+
+Quedo un bug en la ordenación de la función orden jedi
